@@ -1,0 +1,44 @@
+---
+- name: "{{ letsencrypt_acmesh_cert.domains[0] }} : Prepare deploy path"
+  file:
+    name: "{{ letsencrypt_acmesh_cert.deploy_path }}"
+    state: directory
+  when: letsencrypt_acmesh_cert.deploy_path is defined
+
+- name: "{{ letsencrypt_acmesh_cert.domains[0] }} : Issue certificate"
+  shell: >
+    {% if letsencrypt_acmesh_env %}{{ letsencrypt_acmesh_env }}{% endif %}
+    {{ letsencrypt_acmesh_install_path }}/acme.sh --issue
+    {% if letsencrypt_acmesh_cert.args %}{{ letsencrypt_acmesh_cert.args }}{% endif %}
+    {% for domain in letsencrypt_acmesh_cert.domains %} -d {{ domain }}{% endfor %}
+    --dnssleep "{{ letsencrypt_acmesh_dnssleep }}"
+    {% if letsencrypt_acmesh_cert.deploy_path is defined %}--cert-file {{ letsencrypt_acmesh_cert.deploy_path }}/{{ letsencrypt_acmesh_cert.domains[0] }}.cert{% endif %} 
+    {% if letsencrypt_acmesh_cert.deploy_path is defined %}--key-file {{ letsencrypt_acmesh_cert.deploy_path }}/{{ letsencrypt_acmesh_cert.domains[0] }}.key{% endif %} 
+    {{ letsencrypt_acmesh_issue_args }}
+  become: yes
+  become_user: "{{ letsencrypt_acmesh_user }}"
+  failed_when: result.rc != 0 and result.rc != 2 # 2 - RENEW_SKIP
+  changed_when: result.rc == 0
+  register: result
+
+#- name: "{{ letsencrypt_acmesh_cert.domains[0] }} : Create directory for `ssl_certificate` and `ssl_certificate_key`"
+#  file:
+#    path: '{{ item }}'
+#    state: directory
+#    recurse: yes
+#  when: letsencrypt_acmesh_cert.ssl_certificate is defined and letsencrypt_acmesh_cert.ssl_certificate_key is defined and letsencrypt_acmesh_cert.ssl_certificate and letsencrypt_acmesh_cert.ssl_certificate_key
+#  with_items:
+#    - "{{ letsencrypt_acmesh_cert.ssl_certificate|dirname }}"
+#    - "{{ letsencrypt_acmesh_cert.ssl_certificate_key|dirname }}"
+#
+#- name: "{{ letsencrypt_acmesh_cert.domains[0] }} : Symlink certificates to `ssl_certificate` and `ssl_certificate_key`"
+#  file:
+#    src: '{{ item.src }}'
+#    dest: '{{ item.dest }}'
+#    state: link
+#  when: letsencrypt_acmesh_cert.ssl_certificate is defined and letsencrypt_acmesh_cert.ssl_certificate_key is defined and letsencrypt_acmesh_cert.ssl_certificate and letsencrypt_acmesh_cert.ssl_certificate_key
+#  with_items:
+#    - src: /etc/letsencrypt/live/{{ letsencrypt_acmesh_cert.domains[0] }}/fullchain.pem
+#      dest: "{{letsencrypt_acmesh_cert.ssl_certificate}}"
+#    - src: /etc/letsencrypt/live/{{ letsencrypt_acmesh_cert.domains[0] }}/privkey.pem
+#      dest: "{{letsencrypt_acmesh_cert.ssl_certificate_key}}"

@@ -1,0 +1,32 @@
+---
+- name: Install cron, curl, git, idn, socat
+  apt:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - cron
+    - curl
+    - git
+    - idn
+    - socat
+
+- name: Sync acme.sh
+  git:
+    repo: https://github.com/Neilpang/acme.sh.git
+    dest: "{{ letsencrypt_acmesh_dest }}"
+    version: "{{ letsencrypt_acmesh_version }}"
+  become: yes
+  become_user: "{{ letsencrypt_acmesh_user }}"
+
+- name: Install acme.sh
+  shell: >
+    ./acme.sh --install
+    --home "{{ letsencrypt_acmesh_install_path }}"
+    --accountemail "{{ letsencrypt_acmesh_email }}"
+    --certhome "{{ letsencrypt_acmesh_certhome }}"
+    --renew-hook "{{ letsencrypt_acmesh_renew_hook }}"
+  args:
+    chdir: "{{ letsencrypt_acmesh_dest }}"
+  become: yes
+  become_user: "{{ letsencrypt_acmesh_user }}"
+  changed_when: false

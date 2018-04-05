@@ -1,0 +1,16 @@
+---
+letsencrypt_acmesh_env: "" # STAGE=1 for tests
+letsencrypt_acmesh_version: "2.7.7" # or master
+
+letsencrypt_acmesh_user: acmesh
+letsencrypt_acmesh_home: /usr/local/acmesh
+letsencrypt_acmesh_dest: "{{ letsencrypt_acmesh_home }}/acme.sh-git"
+letsencrypt_acmesh_install_path: "{{ letsencrypt_acmesh_home }}/.acme.sh"
+letsencrypt_acmesh_certhome: ""
+
+letsencrypt_acmesh_issue_args: "" # append to end of issue command
+letsencrypt_acmesh_renew_hook: "" # service nginx reload
+letsencrypt_acmesh_dnssleep: 60
+letsencrypt_acmesh_email: "" # email for notifications
+
+letsencrypt_acmesh_certs: [] # see readme

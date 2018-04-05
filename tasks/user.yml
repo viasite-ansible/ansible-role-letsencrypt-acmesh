@@ -1,0 +1,13 @@
+---
+- name: "Create {{ letsencrypt_acmesh_user }} user"
+  user:
+    name: "{{ letsencrypt_acmesh_user }}"
+    home: "{{ letsencrypt_acmesh_home }}"
+
+- name: "{{ letsencrypt_acmesh_home }} access"
+  file:
+    path: "{{ letsencrypt_acmesh_home }}"
+    state: directory
+    mode: 0700
+    owner: "{{ letsencrypt_acmesh_user }}"
+    group: "{{ letsencrypt_acmesh_user }}"
