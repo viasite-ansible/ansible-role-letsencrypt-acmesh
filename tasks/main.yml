@@ -1,13 +1,13 @@
 ---
-- include_tasks: user.yml
-  tags: [ letsencrypt-acmesh, user ]
+- import_tasks: user.yml
+  tags: [ letsencrypt, letsencrypt-acmesh, user ]
 
-- include_tasks: install.yml
-  tags: [ letsencrypt-acmesh, install ]
+- import_tasks: install.yml
+  tags: [ letsencrypt, letsencrypt-acmesh, install ]
 
 - name: generate certificate (multiple)
-  include_tasks: cert.yml
+  include: cert.yml
   with_items: "{{ letsencrypt_acmesh_certs }}"
   loop_control:
     loop_var: letsencrypt_acmesh_cert
-  tags: configure
+  tags: [ letsencrypt, letsencrypt-acmesh, configure ]
