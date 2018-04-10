@@ -12,7 +12,7 @@
 
 - name: Sync acme.sh
   git:
-    repo: https://github.com/Neilpang/acme.sh.git
+    repo: "{{ letsencrypt_acmesh_repo }}"
     dest: "{{ letsencrypt_acmesh_dest }}"
     version: "{{ letsencrypt_acmesh_version }}"
   become: yes

@@ -1,6 +1,7 @@
 ---
 letsencrypt_acmesh_env: "" # STAGE=1 for tests
-letsencrypt_acmesh_version: "2.7.7" # or master
+letsencrypt_acmesh_repo: https://github.com/Neilpang/acme.sh.git
+letsencrypt_acmesh_version: "2.7.8" # or master
 
 letsencrypt_acmesh_user: acmesh
 letsencrypt_acmesh_home: /usr/local/acmesh
