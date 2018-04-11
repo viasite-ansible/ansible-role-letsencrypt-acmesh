@@ -12,9 +12,11 @@
     {% if letsencrypt_acmesh_cert.args %}{{ letsencrypt_acmesh_cert.args }}{% endif %}
     {% for domain in letsencrypt_acmesh_cert.domains %} -d '{{ domain }}'{% endfor %}
     --dnssleep '{{ letsencrypt_acmesh_dnssleep }}'
-    {% if letsencrypt_acmesh_cert.deploy_path is defined %}--cert-file {{ letsencrypt_acmesh_cert.deploy_path }}/{{ letsencrypt_acmesh_cert.domains[0] }}.cert{% endif %} 
-    {% if letsencrypt_acmesh_cert.deploy_path is defined %}--key-file {{ letsencrypt_acmesh_cert.deploy_path }}/{{ letsencrypt_acmesh_cert.domains[0] }}.key{% endif %} 
-    {% if letsencrypt_acmesh_cert.deploy_path is defined %}--fullchain-file {{ letsencrypt_acmesh_cert.deploy_path }}/{{ letsencrypt_acmesh_cert.domains[0] }}.fullchain{% endif %} 
+    {% if letsencrypt_acmesh_cert.deploy_path is defined %}
+    --cert-file {{ letsencrypt_acmesh_cert.deploy_path }}/{{ letsencrypt_acmesh_cert.domains[0] }}.cert 
+    --key-file {{ letsencrypt_acmesh_cert.deploy_path }}/{{ letsencrypt_acmesh_cert.domains[0] }}.key 
+    --fullchain-file {{ letsencrypt_acmesh_cert.deploy_path }}/{{ letsencrypt_acmesh_cert.domains[0] }}.fullchain
+    {% endif %} 
     {{ letsencrypt_acmesh_issue_args }}
   become: yes
   become_user: "{{ letsencrypt_acmesh_user }}"
