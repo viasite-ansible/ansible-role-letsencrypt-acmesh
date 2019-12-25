@@ -18,6 +18,7 @@
       --key-file {{ letsencrypt_acmesh_cert.deploy_path }}/{{ letsencrypt_acmesh_cert.domains[0] }}.key
       --fullchain-file {{ letsencrypt_acmesh_cert.deploy_path }}/{{ letsencrypt_acmesh_cert.domains[0] }}.fullchain
       {% endif %} 
+      --reloadcmd "{{ letsencrypt_acmesh_renew_hook }}"
       {{ letsencrypt_acmesh_issue_args }}
 
 - name: "{{ letsencrypt_acmesh_cert.domains[0] }} : Issue certificate: {{ letsencrypt_acmesh_issue_command }}"

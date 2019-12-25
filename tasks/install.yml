@@ -18,13 +18,13 @@
   become: yes
   become_user: "{{ letsencrypt_acmesh_user }}"
 
+# --reloadcmd not affect while install
 - name: Install acme.sh
   shell: >
     ./acme.sh --install
     --home "{{ letsencrypt_acmesh_install_path }}"
     --accountemail "{{ letsencrypt_acmesh_email }}"
     --certhome "{{ letsencrypt_acmesh_certhome }}"
-    --renew-hook "{{ letsencrypt_acmesh_renew_hook }}"
   args:
     chdir: "{{ letsencrypt_acmesh_dest }}"
   become: yes
