@@ -1,8 +1,9 @@
 ---
 - name: Install cron, curl, git, idn, socat
-  apt:
+  package:
     name: "{{ item }}"
     state: present
+  become: yes
   with_items:
     - cron
     - curl
