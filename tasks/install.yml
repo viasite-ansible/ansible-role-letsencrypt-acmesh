@@ -23,6 +23,7 @@
 - name: Install acme.sh
   shell: >
     ./acme.sh --install
+    --server letsencrypt
     --home "{{ letsencrypt_acmesh_install_path }}"
     --accountemail "{{ letsencrypt_acmesh_email }}"
     --certhome "{{ letsencrypt_acmesh_certhome }}"
