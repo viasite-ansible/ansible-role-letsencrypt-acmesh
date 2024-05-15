@@ -6,8 +6,8 @@
   tags: [ letsencrypt, letsencrypt-acmesh, install ]
 
 - name: generate certificate (multiple)
-  include: cert.yml
+  include_tasks: cert.yml
   with_items: "{{ letsencrypt_acmesh_certs }}"
   loop_control:
     loop_var: letsencrypt_acmesh_cert
-  tags: [ letsencrypt, letsencrypt-acmesh, configure ]
+  tags: [ letsencrypt, letsencrypt-acmesh, configure, ssl ]

@@ -4,6 +4,7 @@
     name: "{{ letsencrypt_acmesh_cert.deploy_path }}"
     state: directory
   when: letsencrypt_acmesh_cert.deploy_path is defined
+  tags: [ letsencrypt, ssl, configure ]
 
 - name: Define issue command
   set_fact:
@@ -20,6 +21,7 @@
       {% endif %} 
       --reloadcmd "{{ letsencrypt_acmesh_renew_hook }}"
       {{ letsencrypt_acmesh_issue_args }}
+  tags: [ letsencrypt, ssl, configure ]
 
 - name: "{{ letsencrypt_acmesh_cert.domains[0] }} : Issue certificate: {{ letsencrypt_acmesh_issue_command }}"
   shell: "{{ letsencrypt_acmesh_issue_command }}"
@@ -28,6 +30,7 @@
   failed_when: result.rc != 0 and result.rc != 2 # 2 - RENEW_SKIP
   changed_when: result.rc == 0
   register: result
+  tags: [ letsencrypt, ssl, configure ]
 
 #- name: "{{ letsencrypt_acmesh_cert.domains[0] }} : Create directory for `ssl_certificate` and `ssl_certificate_key`"
 #  file:
