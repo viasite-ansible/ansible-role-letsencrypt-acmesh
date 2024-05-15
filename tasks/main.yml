@@ -10,4 +10,4 @@
   with_items: "{{ letsencrypt_acmesh_certs }}"
   loop_control:
     loop_var: letsencrypt_acmesh_cert
-  tags: [ letsencrypt, letsencrypt-acmesh, configure, ssl ]
+  tags: [ letsencrypt, letsencrypt-acmesh, configure ]
